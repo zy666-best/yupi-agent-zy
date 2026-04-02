@@ -4,6 +4,7 @@ import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
 
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 /**
  * 网页搜索工具
  */
+@Slf4j
 public class WebSearchTool {
 
     // SearchAPI 的搜索接口地址
@@ -37,6 +39,7 @@ public class WebSearchTool {
             String response = HttpUtil.get(SEARCH_API_URL, paramMap);
             // 取出返回结果的前 5 条
             JSONObject jsonObject = JSONUtil.parseObj(response);
+            log.info("response: {}", response);
             // 提取 organic_results 部分
             JSONArray organicResults = jsonObject.getJSONArray("organic_results");
             List<Object> objects = organicResults.subList(0, 5);
